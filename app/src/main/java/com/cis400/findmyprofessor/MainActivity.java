@@ -19,7 +19,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         setContentView(R.layout.activity_main);
 
         //Initialize Register button
-        register = (TextView) findViewById(R.id.textView3);
+        register = (TextView) findViewById(R.id.register);
         register.setOnClickListener(this);
 
         // Initialize login button
@@ -31,19 +31,19 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     public void onClick(View v){
         //Get Id of the click location
         switch(v.getId()){
-            //Posible Cases below
-            case R.id.textView3:
+
+            case R.id.register:
                 //Take us to register user layout
                 startActivity(new Intent(this, RegisterUser.class));
                 break;
-            case R.id.button:
-                //take us to camera layout
-                startActivity(new Intent(this, RegisterUser.class));
+
+            case R.id.login:
+                //Take us to picture options
                 break;
+                
             default:
         }
 
     }
-
 
 }
