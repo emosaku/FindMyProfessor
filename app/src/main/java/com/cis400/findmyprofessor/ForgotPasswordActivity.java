@@ -7,7 +7,7 @@ import android.os.Bundle;
 import android.widget.TextView;
 import android.view.View;
 
-public class RegisterUser extends AppCompatActivity implements View.OnClickListener{
+public class ForgotPasswordActivity extends AppCompatActivity implements View.OnClickListener{
     private TextView back;
 
     @Override
@@ -21,7 +21,7 @@ public class RegisterUser extends AppCompatActivity implements View.OnClickListe
 
 
     }
-   @Override
+    @Override
     public void onClick(View v){
         //Get Id of the click location
         switch(v.getId()){
