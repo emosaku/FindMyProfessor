@@ -12,19 +12,24 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     //Initialize private TextView(type) variable for the register button
     private TextView register;
     private TextView login;
+    private TextView forgotPassword;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        //Initialize Register button
+        //Initialize Register textview
         register = (TextView) findViewById(R.id.register);
         register.setOnClickListener(this);
 
         // Initialize login button
-        register = (TextView) findViewById(R.id.button);
-        register.setOnClickListener(this);
+        login = (TextView) findViewById(R.id.login);
+        login.setOnClickListener(this);
+
+        // Initialize forgetPassword textview
+        forgotPassword = (TextView) findViewById(R.id.forgotPassword);
+        forgotPassword.setOnClickListener(this);
     }
 
     @Override
@@ -33,15 +38,23 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         switch(v.getId()){
 
             case R.id.register:
-                //Take us to register user layout
+                //Take us to register user activity
                 startActivity(new Intent(this, RegisterUser.class));
                 break;
 
             case R.id.login:
-                //Take us to picture options
+                //Take us to picture options activity
+                startActivity(new Intent(this, CameraActivity.class));
                 break;
-                
+
+            case R.id.forgotPassword:
+                // take us to forget password activity
+                startActivity(new Intent(this, ForgotPasswordActivity.class));
+
+                break;
+
             default:
+                break;
         }
 
     }
