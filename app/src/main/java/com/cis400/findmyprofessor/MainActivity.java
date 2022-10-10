@@ -22,8 +22,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         register = (TextView) findViewById(R.id.register);
         register.setOnClickListener(this);
 
-        login = (TextView) findViewById(R.id.login);
-        login.setOnClickListener(this);
+        // Initialize login button
+        register = (TextView) findViewById(R.id.button);
+        register.setOnClickListener(this);
     }
 
     @Override
@@ -39,7 +40,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             case R.id.login:
                 //Take us to picture options
                 break;
-
+                
             default:
         }
 
