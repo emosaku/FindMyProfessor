@@ -28,7 +28,7 @@ public class ForgotPasswordActivity extends AppCompatActivity implements View.On
 
             case R.id.back:
                 //Take us to main method
-                startActivity(new Intent(this, MainActivity.class));
+                startActivity(new Intent(this, LoginActivity.class));
                 break;
             default:
 
