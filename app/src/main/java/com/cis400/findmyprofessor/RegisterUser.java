@@ -18,13 +18,15 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.cis400.findmyprofessor.R;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.FirebaseApp;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.FirebaseDatabase;
+
+
 
 public class RegisterUser extends AppCompatActivity implements View.OnClickListener {
 
@@ -37,18 +39,22 @@ public class RegisterUser extends AppCompatActivity implements View.OnClickListe
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register_user);
+        FirebaseApp.initializeApp(this);
+
 
         mAuth = FirebaseAuth.getInstance();
 
+
         back = (Button) findViewById(R.id.back);
+        back.setOnClickListener(this);
 
         banner = (TextView) findViewById(R.id.banner);
         banner.setOnClickListener(this);
 
-        //Initialize back button
-        //back = (TextView) findViewById(R.id.back);
-        //back.setOnClickListener(this);
+        registerUser = (Button) findViewById(R.id.register);
+        registerUser.setOnClickListener(this);
 
+      
         registerUser = (Button) findViewById(R.id.register);
         registerUser.setOnClickListener(this);
 
@@ -56,17 +62,16 @@ public class RegisterUser extends AppCompatActivity implements View.OnClickListe
         editTextAge = (EditText) findViewById(R.id.age);
         editTextEmail = (EditText) findViewById(R.id.email);
         editTextPassword = (EditText) findViewById(R.id.password);
-    }
+    } 
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.register:
                 registerUser();
                 break;
-
             case R.id.back:
                 //Take us to main method
-                startActivity(new Intent(this, MainActivity.class));
+                startActivity(new Intent(this, LoginActivity.class));
                 break;
 
             default:
@@ -118,7 +123,7 @@ public class RegisterUser extends AppCompatActivity implements View.OnClickListe
             editTextPassword.requestFocus();
             return;
         }
-
+    
         //************ Done Validating ************
 
         //Progress bar visibility
@@ -165,3 +170,4 @@ public class RegisterUser extends AppCompatActivity implements View.OnClickListe
                 });
     }
 }
+

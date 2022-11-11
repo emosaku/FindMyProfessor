@@ -1,0 +1,69 @@
+{
+  "project_info": {
+    "project_number": "329849843372",
+    "firebase_url": "https://cis400-f7e1a-default-rtdb.firebaseio.com",
+    "project_id": "cis400-f7e1a",
+    "storage_bucket": "cis400-f7e1a.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:329849843372:android:0b926d3b3749796f217909",
+        "android_client_info": {
+          "package_name": "com.cis400.FindMyProf"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "329849843372-qkh54giqqi84kk7t1rga09r2f9mj5kq5.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBAfVYDA6X5qPxgsjS80jvMlZjPhYbp94o"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "329849843372-qkh54giqqi84kk7t1rga09r2f9mj5kq5.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:329849843372:android:17213a4b56c52f7a217909",
+        "android_client_info": {
+          "package_name": "com.cis400.findmyprofessor"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "329849843372-qkh54giqqi84kk7t1rga09r2f9mj5kq5.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBAfVYDA6X5qPxgsjS80jvMlZjPhYbp94o"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "329849843372-qkh54giqqi84kk7t1rga09r2f9mj5kq5.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
