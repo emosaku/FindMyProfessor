@@ -28,6 +28,7 @@
     <string name="login">LOGIN</string>
     <string name="forgot_password">Forgot Password?</string>
     <string name="register">Register</string>
+    <string name="reset_password">RESET PASSWORD</string>
 
     // Register Activity XML (Register Page)
     

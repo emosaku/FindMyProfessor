@@ -94,7 +94,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     private Button logInButton;
     private FirebaseAuth mAuth;
     private ProgressBar progressBar;
-    // private TextView forgotPassword;
+    private TextView forgotPassword;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -116,9 +116,20 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
         mAuth = FirebaseAuth.getInstance();
 
-//      forgotPassword = (TextView) findViewById(R.id.forgotPassword);
-//      forgotPassword.setOnClickListener(this);
+        // Initialize forgotPassword
+        // create onClicklister with a toast message when button is clicked
+        // & Once button is clicked, open ForgotPasswordActivity
+        forgotPassword = (TextView) findViewById(R.id.forgotPassword);
+        forgotPassword.setOnClickListener(this);
     }
+//        forgotPassword.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                Toast.makeText(LoginActivity.this, "You can now reset your Password!", Toast.LENGTH_SHORT).show();
+//                startActivity(new Intent( LoginActivity.this, ForgotPasswordActivity.class));
+//            }
+//        });
+//    }
 
     @Override
     public void onClick(View v){
@@ -126,12 +137,17 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         switch(v.getId()){
             //Possible Cases below
             case R.id.register:
-                //Take us to register user layout
+                //Takes us to register user layout
                 startActivity(new Intent(LoginActivity.this, RegisterUser.class));
                 break;
             case R.id.login:
-                //Take us to login/home option activity
+                //Takes us to login/home option activity
                 startActivity(new Intent(LoginActivity.this, HomePage.class));
+                break;
+            case R.id.forgotPassword:
+                // Takes us to forgotpassword activity
+                Toast.makeText(LoginActivity.this, "You can now reset your Password!", Toast.LENGTH_SHORT).show();
+                startActivity(new Intent( LoginActivity.this, ForgotPasswordActivity.class));
                 break;
             default:
                 throw new IllegalStateException("Unexpected value: " + v.getId());

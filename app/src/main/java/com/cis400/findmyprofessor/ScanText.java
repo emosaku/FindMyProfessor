@@ -7,7 +7,7 @@ import android.os.Bundle;
 
 import com.google.firebase.auth.FirebaseAuth;
 
-public class CameraActivity extends AppCompatActivity {
+public class ScanText extends AppCompatActivity {
 
 
 
