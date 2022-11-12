@@ -18,12 +18,14 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.FirebaseApp;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.FirebaseDatabase;
+
 
 
 public class RegisterUser extends AppCompatActivity implements View.OnClickListener {
@@ -42,6 +44,7 @@ public class RegisterUser extends AppCompatActivity implements View.OnClickListe
 
         mAuth = FirebaseAuth.getInstance();
 
+
         back = (Button) findViewById(R.id.back);
         back.setOnClickListener(this);
 
@@ -51,11 +54,15 @@ public class RegisterUser extends AppCompatActivity implements View.OnClickListe
         registerUser = (Button) findViewById(R.id.register);
         registerUser.setOnClickListener(this);
 
+      
+        registerUser = (Button) findViewById(R.id.register);
+        registerUser.setOnClickListener(this);
+
         editTextFullName = (EditText) findViewById(R.id.fullName);
         editTextAge = (EditText) findViewById(R.id.age);
         editTextEmail = (EditText) findViewById(R.id.email);
         editTextPassword = (EditText) findViewById(R.id.password);
-    }
+    } 
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
@@ -66,6 +73,7 @@ public class RegisterUser extends AppCompatActivity implements View.OnClickListe
                 //Take us to main method
                 startActivity(new Intent(this, LoginActivity.class));
                 break;
+
             default:
                 throw new IllegalStateException("Unexpected value: " + v.getId());
         }
@@ -115,7 +123,7 @@ public class RegisterUser extends AppCompatActivity implements View.OnClickListe
             editTextPassword.requestFocus();
             return;
         }
-
+    
         //************ Done Validating ************
 
         //Progress bar visibility
