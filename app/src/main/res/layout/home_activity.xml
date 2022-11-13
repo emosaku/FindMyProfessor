@@ -84,7 +84,7 @@
         tools:ignore="UsingOnClickInXml" />
 
     <TextView
-        android:id="@+id/textView3"
+        android:id="@+id/scannedText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/keywords_textview"
@@ -94,6 +94,17 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.733" />
+
+    <ImageView
+        android:id="@+id/capturedImage"
+        android:layout_width="249dp"
+        android:layout_height="294dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.409"
+        app:srcCompat="@drawable/ic_baseline_image_24" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
