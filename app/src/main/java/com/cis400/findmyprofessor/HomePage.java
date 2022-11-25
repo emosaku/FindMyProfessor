@@ -313,6 +313,7 @@ public class HomePage extends AppCompatActivity implements View.OnClickListener{
                 break;
             case R.id.GENERATE:
                 //Take us to GENERATE class
+                //Need to bring words over as well
                 startActivity(new Intent(this, GenerateActivity.class));
                 break;
             default:
