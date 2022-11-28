@@ -27,6 +27,8 @@ import com.google.firebase.firestore.QuerySnapshot;
 import org.checkerframework.checker.units.qual.A;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Arrays;
 import java.util.List;
 
 public class GenerateActivity extends AppCompatActivity implements View.OnClickListener{
@@ -37,6 +39,7 @@ public class GenerateActivity extends AppCompatActivity implements View.OnClickL
 
     RecyclerView recyclerView;
     ArrayList<Professor> profList;
+    ArrayList<Course> courseList;
     DatabaseReference databaseReference;
     CardAdapter adapter;
 
@@ -49,13 +52,13 @@ public class GenerateActivity extends AppCompatActivity implements View.OnClickL
         back.setOnClickListener(this);
 
         recyclerView = findViewById(R.id.recycleview);
-        //databaseReference = FirebaseDatabase.getInstance().getReference("___");
+        //databaseReference = FirebaseDatabase.getInstance().getReference("");
         profList = new ArrayList<>();
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         adapter = new CardAdapter(this, profList);
         recyclerView.setAdapter(adapter);
 
-        //Get data from Firestore
+        //Get professor data from Firestore
         firestore.collection("profCatalog")
                 .get()
                 .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>(){
@@ -64,33 +67,61 @@ public class GenerateActivity extends AppCompatActivity implements View.OnClickL
                 if(task.isSuccessful()){
                     QuerySnapshot returnedProfessors = task.getResult();
 
-                    //Loop to add professors
-                    /*
-                    for(QueryDocumentSnapshot doc : returnedProfessors){
-                        //Add name, email, office, title
-                        profList.add(new Professor(doc.getId(), doc.getString("Email"),
-                                                    doc.getString("Office"), doc.getString("Title")));
-                    }
-                    */
-
-                    //Just print first 4 professors
+                    //Grab professor info from DB
                     List<DocumentSnapshot> documentSnapshotList = returnedProfessors.getDocuments();
-                    for(int i=0; i<4; i++){
+                    for(int i=0; i<documentSnapshotList.size(); i++){
                         DocumentSnapshot doc = documentSnapshotList.get(i);
-                        //Add name, email, office, title
-                        profList.add(new Professor(doc.getId(), doc.getString("Email"),
-                                doc.getString("Office"), doc.getString("Title")));
+                        //Create new Professor name, email, office, title
+                        Professor prof = new Professor(doc.getId(), doc.getString("Email"),
+                                doc.getString("Office"), doc.getString("Title"), 0);
+
+                        profList.add(prof);
                     }
 
                     adapter.notifyDataSetChanged();
                 }
-                else {
-                    Toast.makeText(GenerateActivity.this,"Something Went Wrong Retrieving Professors.", Toast.LENGTH_LONG).show();
-                }
+                else { Toast.makeText(GenerateActivity.this,"Something Went Wrong Retrieving Professors.", Toast.LENGTH_LONG).show(); }
             }
         });
 
+        //Get course and keyword data from Firestore
+        firestore.collection("KeyWords Catalog")
+                .get()
+                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>(){
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        if(task.isSuccessful()){
+                            QuerySnapshot returnedCourses = task.getResult();
+
+                            List<DocumentSnapshot> documentSnapshotList = returnedCourses.getDocuments();
+                            for(int i=0; i<documentSnapshotList.size(); i++){
+                                DocumentSnapshot doc = documentSnapshotList.get(i);
+
+                                //Grab keywords and professors
+                                String[] tempKeywords = (String[]) doc.get("keywords");
+                                String[] tempProfessors =  (String[]) doc.get("professors");;
+                                Course course = new Course(tempKeywords, tempProfessors);
+
+                                courseList.add(course);
+                            }
+                        }
+                        else { Toast.makeText(GenerateActivity.this,"Something Went Wrong Retrieving Professors.", Toast.LENGTH_LONG).show(); }
+                    }
+                });
     }
+
+    //Retrieve filtered words from home page
+    Intent intent = getIntent();
+    //Eventually get this in String[] or Arraylist<String>
+    String filteredKeyWords = intent.getStringExtra("keyFilteredWords");
+
+    //Ranking
+    /*
+    We have profList full of Professor (String fullName, String email, String office, String title, Integer keywordMatches)
+    We have courseList full of Course objects (String[] keywords, String[] professors)
+    We have filteredKeyWords
+     */
+
 
     @Override
     public void onClick(View v) {

@@ -48,9 +48,18 @@ import com.google.mlkit.vision.text.TextRecognizer;
 import com.google.mlkit.vision.text.latin.TextRecognizerOptions;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Locale;
 
 public class HomePage extends AppCompatActivity implements View.OnClickListener{
     private static final int CAPTURE_CODE = 1012;
+
+    private ArrayList<String> blackList = new ArrayList<String>(Arrays.asList("Introduction", "Intro", "Basics", "Basic", "to", "Of", "And", "But", "In", "Into", "Our", "Out In-Depth", "Basic Tutorial", "Review", "Preview", "Properties", "Inclusive", "Exclusive", "Approach", "Outline", "Analysis", "Overview", "Methods", "For", "Explanation", "Explaining", "Aspects", "Core", "Concepts", "Step-by-step", "Steps", "Procedural", "Information"));
+
+    private String recognizedText;
 
     private Button scanText;
     private Button logout;
@@ -116,7 +125,7 @@ public class HomePage extends AppCompatActivity implements View.OnClickListener{
                 if (image_uri == null){
                     Toast.makeText(HomePage.this,"Image not selected", Toast.LENGTH_SHORT).show();
                 }else{
-                    scanTextFromImage();
+                    filterTextFromScan();
                 }
             }
         });
@@ -268,17 +277,14 @@ public class HomePage extends AppCompatActivity implements View.OnClickListener{
         }
     }
 
-    private void scanTextFromImage() {
+    private String scanTextFromImage() {
         try {
             InputImage inputImage = InputImage.fromFilePath(this,image_uri);
 
             Task<Text> textTaskResult = textRecognizer.process(inputImage)
                     .addOnSuccessListener(new OnSuccessListener<Text>() {
                         @Override
-                        public void onSuccess(Text text) {
-                            String recognizedText = text.getText();
-                            scannedString.setText(recognizedText);
-                        }
+                        public void onSuccess(Text text) { recognizedText = text.getText(); }
                     })
                     .addOnFailureListener(new OnFailureListener() {
                         @Override
@@ -291,16 +297,26 @@ public class HomePage extends AppCompatActivity implements View.OnClickListener{
             Toast.makeText(this, "Image not made available due to " + e.getMessage(), Toast.LENGTH_SHORT).show();
 
         }
-
+        return recognizedText;
     }
 
+    //Filter w blacklist
+    //Pass recognizedText as param
+    private HashSet<String> filterTextFromScan() {
+        //String[] recognizedText = scanTextFromImage().split(" ");
+        String[] recognizedText = "Intro to Statistics Guide to Statistics".split(" ");
+        HashSet<String> filteredText = new HashSet<>();
 
+        for (String word : recognizedText){
+            //if word is contained in recognizedText
+            if (!blackList.contains(word.toLowerCase())){ //word good
+                filteredText.add(word);
+            }
 
-
-
-
-
-
+        }
+        scannedString.setText(filteredText.toString());
+        return filteredText;
+    }
 
     @Override
     public void onClick(View v){
@@ -314,7 +330,9 @@ public class HomePage extends AppCompatActivity implements View.OnClickListener{
             case R.id.GENERATE:
                 //Take us to GENERATE class
                 //Need to bring words over as well
-                startActivity(new Intent(this, GenerateActivity.class));
+                Intent intent = new Intent(this, GenerateActivity.class);
+                intent.putExtra("keyFilteredWords", (filterTextFromScan().toString()));
+                startActivity(intent);
                 break;
             default:
 
