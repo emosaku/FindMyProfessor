@@ -48,7 +48,7 @@ public class GenerateActivity extends AppCompatActivity implements View.OnClickL
         super.onCreate(savedInstanceState);
         setContentView(R.layout.generate_activity);
 
-        back = (Button) findViewById(R.id.back_button);
+        back = (Button) findViewById(R.id.backToHomePageBtn);
         back.setOnClickListener(this);
 
         recyclerView = findViewById(R.id.recycleview);
@@ -126,9 +126,9 @@ public class GenerateActivity extends AppCompatActivity implements View.OnClickL
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
-            case R.id.back_button:
+            case R.id.backToHomePageBtn:
                 //Take us back to home page
-                startActivity(new Intent(this, HomePage.class));
+                startActivity(new Intent(this, LoginActivity.class));
                 break;
 
             default:

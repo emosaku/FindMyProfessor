@@ -57,7 +57,7 @@ import java.util.Locale;
 public class HomePage extends AppCompatActivity implements View.OnClickListener{
     private static final int CAPTURE_CODE = 1012;
 
-    private ArrayList<String> blackList = new ArrayList<String>(Arrays.asList("Introduction", "Intro", "Basics", "Basic", "to", "Of", "And", "But", "In", "Into", "Our", "Out In-Depth", "Basic Tutorial", "Review", "Preview", "Properties", "Inclusive", "Exclusive", "Approach", "Outline", "Analysis", "Overview", "Methods", "For", "Explanation", "Explaining", "Aspects", "Core", "Concepts", "Step-by-step", "Steps", "Procedural", "Information"));
+    private ArrayList<String> blackList = new ArrayList<String>(Arrays.asList("Introduction", "Intro", "Basics", "Basic", "to", "Of", "And", "But", "In", "Into", "Our", "Out In-Depth", "Basic Tutorial", "Review", "Preview", "Properties", "Inclusive", "Exclusive", "Approach", "Outline", "Analysis", "Overview", "Methods", "For", "Explanation", "Explaining", "Aspects", "Core", "Concepts", "Step-by-step", "Steps", "Procedural", "Information","Guide","Procedure","Types","Summary","Type","Summary"));
 
     private String recognizedText;
 
@@ -302,21 +302,24 @@ public class HomePage extends AppCompatActivity implements View.OnClickListener{
 
     //Filter w blacklist
     //Pass recognizedText as param
-    private HashSet<String> filterTextFromScan() {
+    private String filterTextFromScan() {
         //String[] recognizedText = scanTextFromImage().split(" ");
-        String[] recognizedText = "Intro to Statistics Guide to Statistics".split(" ");
-        HashSet<String> filteredText = new HashSet<>();
+        String[] recognizedText = {"Intro", "to", "Statistics", "Guide", "to", "Statistics"};
+        StringBuilder sb = new StringBuilder();
 
         for (String word : recognizedText){
             //if word is contained in recognizedText
             if (!blackList.contains(word.toLowerCase())){ //word good
-                filteredText.add(word);
+                sb.append(word);
             }
 
         }
-        scannedString.setText(filteredText.toString());
+        String filteredText = sb.toString();
+        scannedString.setText(filteredText);
         return filteredText;
     }
+
+
 
     @Override
     public void onClick(View v){
@@ -325,14 +328,16 @@ public class HomePage extends AppCompatActivity implements View.OnClickListener{
 
             case R.id.logout:
                 //Take us to mainActivity class
-                startActivity(new Intent(this, LoginActivity.class));
+                Intent logOutIntent = new Intent(HomePage.this, LoginActivity.class);
+                startActivity(logOutIntent);
                 break;
             case R.id.GENERATE:
                 //Take us to GENERATE class
                 //Need to bring words over as well
-                Intent intent = new Intent(this, GenerateActivity.class);
-                intent.putExtra("keyFilteredWords", (filterTextFromScan().toString()));
-                startActivity(intent);
+                Intent genIntent = new Intent(HomePage.this, GenerateActivity.class);
+                String filteredText = filterTextFromScan();
+                genIntent.putExtra("keyFilteredWords", filteredText);
+                startActivity(genIntent);
                 break;
             default:
 
