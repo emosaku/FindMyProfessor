@@ -305,16 +305,19 @@ public class HomePage extends AppCompatActivity implements View.OnClickListener{
     private String filterTextFromScan() {
         //String[] recognizedText = scanTextFromImage().split(" ");
         String[] recognizedText = {"Intro", "to", "Statistics", "Guide", "to", "Statistics"};
-        StringBuilder sb = new StringBuilder();
-
+        HashSet<String> hs = new HashSet<>();
+        String filteredText = "";
         for (String word : recognizedText){
             //if word is contained in recognizedText
             if (!blackList.contains(word.toLowerCase())){ //word good
-                sb.append(word);
+                hs.add(word.toLowerCase());
             }
 
         }
-        String filteredText = sb.toString();
+
+        for (String word : hs) {
+            filteredText.concat(word);
+        }
         scannedString.setText(filteredText);
         return filteredText;
     }
