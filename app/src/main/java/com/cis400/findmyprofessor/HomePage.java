@@ -316,7 +316,8 @@ public class HomePage extends AppCompatActivity implements View.OnClickListener{
         }
 
         for (String word : hs) {
-            filteredText.concat(word);
+            filteredText+=word;
+            filteredText+=" ";
         }
         scannedString.setText(filteredText);
         return filteredText;
