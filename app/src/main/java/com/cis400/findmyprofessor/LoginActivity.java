@@ -84,6 +84,7 @@ package com.cis400.findmyprofessor;
         import com.google.firebase.FirebaseApp;
 
 
+
 public class LoginActivity extends AppCompatActivity implements View.OnClickListener{
 
     //Initialize private TextView variable for the register button,
@@ -142,10 +143,10 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                 break;
             case R.id.login:
                 //Takes us to login/home option activity
-                startActivity(new Intent(LoginActivity.this, HomePage.class));
+                userLogin();
                 break;
             case R.id.forgotPassword:
-                // Takes us to forgotpassword activity
+                // Takes us to forgotpassword ac;tivity
                 Toast.makeText(LoginActivity.this, "You can now reset your Password!", Toast.LENGTH_SHORT).show();
                 startActivity(new Intent( LoginActivity.this, ForgotPasswordActivity.class));
                 break;
@@ -154,7 +155,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         }
     }
 
-    private void userLogin() {
+    private View.OnClickListener userLogin() {
         //Initialize user login input from the EditText's.
         //Trim just in case theres an extra space.
         String email = userEmail.getText().toString().trim();
@@ -164,22 +165,22 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         if (email.isEmpty()) {
             userEmail.setError("Email is Required.");
             userEmail.requestFocus();
-            return;
+            return null;
         }
         if (!(Patterns.EMAIL_ADDRESS.matcher(email).matches())) {
             userEmail.setError("Please Provide Valid Email.");
             userEmail.requestFocus();
-            return;
+            return null;
         }
         if (password.isEmpty()) {
             userPassword.setError("Email is Required.");
             userPassword.requestFocus();
-            return;
+            return null;
         }
         if (password.length() <= 6) {
             userPassword.setError("Minimum Password Length is 6 Characters.");
             userPassword.requestFocus();
-            return;
+            return null;
         }
 
         progressBar.setVisibility(View.VISIBLE);
@@ -202,6 +203,9 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
             }
         });
 
+        startActivity(new Intent(LoginActivity.this, HomePage.class));
+
+        return null;
     }
 
 }
