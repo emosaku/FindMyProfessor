@@ -9,17 +9,18 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 
 public class EmailActivity extends AppCompatActivity implements View.OnClickListener {
-
     private EditText mEditTextTo;
     private EditText mEditTextSubject;
     private EditText mEditTextMessage;
     private Button back;
+    private Button button_send;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -28,6 +29,10 @@ public class EmailActivity extends AppCompatActivity implements View.OnClickList
 
         back = (Button) findViewById(R.id.back);
         back.setOnClickListener(this);
+
+
+        button_send = (Button) findViewById(R.id.button_send);
+        button_send.setOnClickListener(this);
 
         // Change color of Status Bar (Top bar)
         if (Build.VERSION.SDK_INT >= 21) {
@@ -39,43 +44,50 @@ public class EmailActivity extends AppCompatActivity implements View.OnClickList
 
 
 
-//        mEditTextTo = findViewById(R.id.edit_text_to);
-//        mEditTextSubject = findViewById(R.id.edit_text_subject);
-//        mEditTextMessage = findViewById(R.id.edit_text_message);
-//
-//        Button buttonSend = findViewById(R.id.button_send);
-//        buttonSend.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                sendMail();
-//            }
-//        });
-//    }
-//    // generate from: "users email" automatically
-//
-//    private void sendMail() {
-//        String recipientList = mEditTextTo.getText().toString();
-//        String[] recipients = recipientList.split(",");
-//
-//        String subject = mEditTextSubject.getText().toString();
-//        String message = mEditTextMessage.getText().toString();
-//
-//        Intent intent = new Intent(Intent.ACTION_SEND);
-//        intent.putExtra(Intent.EXTRA_EMAIL, recipients);
-//        intent.putExtra(Intent.EXTRA_SUBJECT, subject);
-//        intent.putExtra(Intent.EXTRA_TEXT, message);
-//
-//        intent.setType("message/rfc822");
-//        startActivity(Intent.createChooser(intent, "Choose an email client"));
-//    }
+        mEditTextTo = findViewById(R.id.edit_text_to);
+        mEditTextSubject = findViewById(R.id.edit_text_subject);
+        mEditTextMessage = findViewById(R.id.edit_text_message);
+
+        Button buttonSend = findViewById(R.id.button_send);
+        buttonSend.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                sendMail();
+            }
+        });
     }
+    // generate from: "users email" automatically
+
+    private void sendMail() {
+
+
+        String recipientList = mEditTextTo.getText().toString();
+        String[] recipients = recipientList.split(",");
+
+        String subject = mEditTextSubject.getText().toString();
+        String message = mEditTextMessage.getText().toString();
+
+        Intent intent = new Intent(Intent.ACTION_SEND);
+        intent.putExtra(Intent.EXTRA_EMAIL, recipients);
+        intent.putExtra(Intent.EXTRA_SUBJECT, subject);
+        intent.putExtra(Intent.EXTRA_TEXT, message);
+
+        intent.setType("message/rfc822");
+        startActivity(Intent.createChooser(intent, "Choose an email client"));
+    }
+
 
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.back:
                 //Take us to main method
-                startActivity(new Intent(this, LoginActivity.class));
+                startActivity(new Intent(this, GenerateActivity.class));
+                break;
+            case R.id.button_send:
+                //Take us to main method
+                startActivity(new Intent(this, HomePage.class));
+                Toast.makeText(EmailActivity.this, "Email has been sent!", Toast.LENGTH_SHORT).show();
                 break;
             default:
                 throw new IllegalStateException("Unexpected value: " + v.getId());
@@ -83,7 +95,5 @@ public class EmailActivity extends AppCompatActivity implements View.OnClickList
 
     }
 
-    // this event will enable the back
-    // function to the button on press
 
 }

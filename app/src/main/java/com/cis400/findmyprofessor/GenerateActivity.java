@@ -34,11 +34,12 @@ import org.checkerframework.checker.units.qual.A;
 import java.util.ArrayList;
 import java.util.List;
 
-public class GenerateActivity extends AppCompatActivity{
+public class GenerateActivity extends AppCompatActivity implements View.OnClickListener{
 
     //Where we have the catalogs
     private FirebaseFirestore firestore = FirebaseFirestore.getInstance();
-    private Button back;
+    private Button generate_back_button;
+    private Button button_email;
 
     RecyclerView recyclerView;
     ArrayList<Professor> profList;
@@ -56,6 +57,13 @@ public class GenerateActivity extends AppCompatActivity{
 //        // showing the back button in action bar
 //        actionBar.setDisplayHomeAsUpEnabled(true);
 
+        // back button initializer
+        generate_back_button = (Button) findViewById(R.id.generate_back_button);
+        generate_back_button.setOnClickListener(this);
+
+        // button email initializer
+        button_email = (Button) findViewById(R.id.button_email);
+        button_email.setOnClickListener(this);
 
 
         // Change color of Status Bar (Top bar)
@@ -108,6 +116,22 @@ public class GenerateActivity extends AppCompatActivity{
                     }
                 });
 
+    }
+
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()) {
+            case R.id.button_email:
+                //Take us to main method
+                startActivity(new Intent(GenerateActivity.this, EmailActivity.class));
+                break;
+            case R.id.generate_back_button:
+                //Take us to main method
+                startActivity(new Intent(GenerateActivity.this, HomePage.class));
+                break;
+            default:
+                throw new IllegalStateException("Unexpected value: " + v.getId());
+        }
     }
 
     // this event will enable the back
