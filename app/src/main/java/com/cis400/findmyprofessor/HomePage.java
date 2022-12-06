@@ -29,6 +29,8 @@ import android.os.Bundle;
 import android.provider.MediaStore;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.PopupMenu;
@@ -48,18 +50,9 @@ import com.google.mlkit.vision.text.TextRecognizer;
 import com.google.mlkit.vision.text.latin.TextRecognizerOptions;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Locale;
 
 public class HomePage extends AppCompatActivity implements View.OnClickListener{
     private static final int CAPTURE_CODE = 1012;
-
-    private ArrayList<String> blackList = new ArrayList<String>(Arrays.asList("Introduction", "Intro", "Basics", "Basic", "to", "Of", "And", "But", "In", "Into", "Our", "Out In-Depth", "Basic Tutorial", "Review", "Preview", "Properties", "Inclusive", "Exclusive", "Approach", "Outline", "Analysis", "Overview", "Methods", "For", "Explanation", "Explaining", "Aspects", "Core", "Concepts", "Step-by-step", "Steps", "Procedural", "Information","Guide","Procedure","Types","Summary","Type","Summary"));
-
-    private String recognizedText;
 
     private Button scanText;
     private Button logout;
@@ -82,7 +75,13 @@ public class HomePage extends AppCompatActivity implements View.OnClickListener{
         setContentView(R.layout.home_activity);
         FirebaseApp.initializeApp(this);
 
-
+        // Change color of Status Bar (Top bar)
+        if (Build.VERSION.SDK_INT >= 21) {
+            Window window = this.getWindow();
+            window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
+            window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
+            window.setStatusBarColor(this.getResources().getColor(R.color.colorPrimary));
+        }
 
         //Initialize back / logout button
         logout= (Button) findViewById(R.id.logout);
@@ -125,7 +124,7 @@ public class HomePage extends AppCompatActivity implements View.OnClickListener{
                 if (image_uri == null){
                     Toast.makeText(HomePage.this,"Image not selected", Toast.LENGTH_SHORT).show();
                 }else{
-                    filterTextFromScan();
+                    scanTextFromImage();
                 }
             }
         });
@@ -277,14 +276,17 @@ public class HomePage extends AppCompatActivity implements View.OnClickListener{
         }
     }
 
-    private String scanTextFromImage() {
+    private void scanTextFromImage() {
         try {
             InputImage inputImage = InputImage.fromFilePath(this,image_uri);
 
             Task<Text> textTaskResult = textRecognizer.process(inputImage)
                     .addOnSuccessListener(new OnSuccessListener<Text>() {
                         @Override
-                        public void onSuccess(Text text) { recognizedText = text.getText(); }
+                        public void onSuccess(Text text) {
+                            String recognizedText = text.getText();
+                            scannedString.setText(recognizedText);
+                        }
                     })
                     .addOnFailureListener(new OnFailureListener() {
                         @Override
@@ -297,32 +299,14 @@ public class HomePage extends AppCompatActivity implements View.OnClickListener{
             Toast.makeText(this, "Image not made available due to " + e.getMessage(), Toast.LENGTH_SHORT).show();
 
         }
-        return recognizedText;
+
     }
 
-    //Filter w blacklist
-    //Pass recognizedText as param
-    private String filterTextFromScan() {
-        //String[] recognizedText = scanTextFromImage().split(" ");
-        String recognizedText = scanTextFromImage();
-        String[] recognizedTextArray = recognizedText.split(" ");
-        HashSet<String> hs = new HashSet<>();
-        String filteredText = "";
-        for (String word : recognizedTextArray){
-            //if word is contained in recognizedText
-            if (!blackList.contains(word.toLowerCase())){ //word good
-                hs.add(word.toLowerCase());
-            }
 
-        }
 
-        for (String word : hs) {
-            filteredText+=word;
-            filteredText+=" ";
-        }
-        scannedString.setText(filteredText);
-        return filteredText;
-    }
+
+
+
 
 
 
@@ -333,16 +317,12 @@ public class HomePage extends AppCompatActivity implements View.OnClickListener{
 
             case R.id.logout:
                 //Take us to mainActivity class
-                Intent logOutIntent = new Intent(HomePage.this, LoginActivity.class);
-                startActivity(logOutIntent);
+                startActivity(new Intent(this, LoginActivity.class));
                 break;
             case R.id.GENERATE:
                 //Take us to GENERATE class
                 //Need to bring words over as well
-                Intent genIntent = new Intent(HomePage.this, GenerateActivity.class);
-                String filteredText = filterTextFromScan();
-                genIntent.putExtra("keyFilteredWords", filteredText);
-                startActivity(genIntent);
+                startActivity(new Intent(this, GenerateActivity.class));
                 break;
             default:
 

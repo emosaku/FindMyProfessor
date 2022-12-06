@@ -13,6 +13,8 @@
             android:layout_height="wrap_content"
             android:layout_margin="16dp"
             android:orientation="vertical"
+            android:background="@color/colorPrimaryDark"
+
             >
 
             <LinearLayout

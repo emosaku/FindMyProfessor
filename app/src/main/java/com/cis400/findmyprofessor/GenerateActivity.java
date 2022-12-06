@@ -1,9 +1,12 @@
 package com.cis400.findmyprofessor;
 
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -31,7 +34,7 @@ import org.checkerframework.checker.units.qual.A;
 import java.util.ArrayList;
 import java.util.List;
 
-public class GenerateActivity extends AppCompatActivity implements View.OnClickListener{
+public class GenerateActivity extends AppCompatActivity{
 
     //Where we have the catalogs
     private FirebaseFirestore firestore = FirebaseFirestore.getInstance();
@@ -47,11 +50,21 @@ public class GenerateActivity extends AppCompatActivity implements View.OnClickL
         super.onCreate(savedInstanceState);
         setContentView(R.layout.generate_activity);
 
-        // calling the action bar
-        ActionBar actionBar = getSupportActionBar();
+//        // calling the action bar
+//        ActionBar actionBar = getSupportActionBar();
+//
+//        // showing the back button in action bar
+//        actionBar.setDisplayHomeAsUpEnabled(true);
 
-        // showing the back button in action bar
-        actionBar.setDisplayHomeAsUpEnabled(true);
+
+
+        // Change color of Status Bar (Top bar)
+        if (Build.VERSION.SDK_INT >= 21) {
+            Window window = this.getWindow();
+            window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
+            window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
+            window.setStatusBarColor(this.getResources().getColor(R.color.colorPrimaryDark));
+        }
 
         recyclerView = findViewById(R.id.recycleview);
         //databaseReference = FirebaseDatabase.getInstance().getReference("___");
@@ -71,26 +84,26 @@ public class GenerateActivity extends AppCompatActivity implements View.OnClickL
 
                             //Loop to add professors
 
-                    for(QueryDocumentSnapshot doc : returnedProfessors){
+                 /*  for(QueryDocumentSnapshot doc : returnedProfessors){
                         //Add name, email, office, title
                         profList.add(new Professor(doc.getId(), doc.getString("Email"),
                                                     doc.getString("Office"), doc.getString("Title")));
                     }
-
+                        */
 
                             //Just print first 10 professors
-//                            List<DocumentSnapshot> documentSnapshotList = returnedProfessors.getDocuments();
-//                            for(int i=0; i<4; i++){
-//                                DocumentSnapshot doc = documentSnapshotList.get(i);
-//                                //Add name, email, office, title
-//                                profList.add(new Professor(doc.getId(), doc.getString("Email"),
-//                                        doc.getString("Office"), doc.getString("Title")));
-//                            }
-//
-//                            adapter.notifyDataSetChanged();
-//                        }
-//                        else {
-//                            Toast.makeText(GenerateActivity.this,"Something Went Wrong Retrieving Professors.", Toast.LENGTH_LONG).show();
+                            List<DocumentSnapshot> documentSnapshotList = returnedProfessors.getDocuments();
+                            for(int i=0; i<10; i++){
+                                DocumentSnapshot doc = documentSnapshotList.get(i);
+                                //Add name, email, office, title
+                                profList.add(new Professor(doc.getId(), doc.getString("Email"),
+                                        doc.getString("Office"), doc.getString("Title")));
+                            }
+
+                            adapter.notifyDataSetChanged();
+                        }
+                        else {
+                            Toast.makeText(GenerateActivity.this,"Something Went Wrong Retrieving Professors.", Toast.LENGTH_LONG).show();
                        }
                     }
                 });
@@ -99,23 +112,16 @@ public class GenerateActivity extends AppCompatActivity implements View.OnClickL
 
     // this event will enable the back
     // function to the button on press
-    @Override
-    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-        switch (item.getItemId()) {
-            case android.R.id.home:
-                this.finish();
-                return true;
-        }
-        return super.onOptionsItemSelected(item);
-    }
+//    @Override
+//    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+//        switch (item.getItemId()) {
+//            case android.R.id.home:
+//                this.finish();
+//                return true;
+//        }
+//        return super.onOptionsItemSelected(item);
+//    }
 
-    @Override
-    public void onClick(View v) {
-        switch (v.getId()) {
-            default:
-                throw new IllegalStateException("Unexpected value: " + v.getId());
-        }
-    }
 
 }
 

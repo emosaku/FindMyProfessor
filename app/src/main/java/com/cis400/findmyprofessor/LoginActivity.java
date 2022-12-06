@@ -1,75 +1,15 @@
-//package com.cis400.findmyprofessor;
-//
-//import androidx.appcompat.app.AppCompatActivity;
-//
-//import android.content.Intent;
-//import android.os.Bundle;
-//import android.widget.TextView;
-//import android.view.View;
-//
-//public class MainActivity extends AppCompatActivity implements View.OnClickListener{
-//
-//    //Initialize private TextView(type) variable for the register button
-//    private TextView register;
-//    private TextView login;
-//    private TextView forgotPassword;
-//
-//    @Override
-//    protected void onCreate(Bundle savedInstanceState) {
-//        super.onCreate(savedInstanceState);
-//        setContentView(R.layout.activity_main);
-//
-//        //Initialize Register textview
-//        register = (TextView) findViewById(R.id.register);
-//        register.setOnClickListener(this);
-//
-//        // Initialize login button
-//        login = (TextView) findViewById(R.id.login);
-//        login.setOnClickListener(this);
-//
-//        // Initialize forgetPassword textview
-//        forgotPassword = (TextView) findViewById(R.id.forgotPassword);
-//        forgotPassword.setOnClickListener(this);
-//    }
-//
-//    @Override
-//    public void onClick(View v){
-//        //Get Id of the click location
-//        switch(v.getId()){
-//
-//            case R.id.register:
-//                //Take us to register user activity
-//                startActivity(new Intent(this, RegisterUser.class));
-//                break;
-//
-//            case R.id.login:
-//                //Take us to picture options activity
-//                startActivity(new Intent(this, LoginActivity.class));
-//                break;
-//
-//            case R.id.forgotPassword:
-//                // take us to forget password activity
-//                startActivity(new Intent(this, ForgotPasswordActivity.class));
-//                break;
-//
-//            default:
-//                break;
-//        }
-//
-//    }
-//
-//}
-
-//package com.cis400.FindMyProf;
-//Last Update: Oct 25th
+// last updated 12/5/22
 package com.cis400.findmyprofessor;
 
         import androidx.annotation.NonNull;
         import androidx.appcompat.app.AppCompatActivity;
 
         import android.content.Intent;
+        import android.os.Build;
         import android.os.Bundle;
         import android.util.Patterns;
+        import android.view.Window;
+        import android.view.WindowManager;
         import android.widget.TextView;
         import android.view.View;
         import android.widget.Button;
@@ -82,6 +22,7 @@ package com.cis400.findmyprofessor;
         import com.google.firebase.auth.AuthResult;
         import com.google.firebase.auth.FirebaseAuth;
         import com.google.firebase.FirebaseApp;
+
 
 
 
@@ -103,6 +44,13 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         setContentView(R.layout.login_main);
         FirebaseApp.initializeApp(this);
 
+        // Change color of Status Bar (Top bar)
+        if (Build.VERSION.SDK_INT >= 21) {
+            Window window = this.getWindow();
+            window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
+            window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
+            window.setStatusBarColor(this.getResources().getColor(R.color.colorPrimary));
+        }
         //Initialize Register button
         registerUser = (TextView) findViewById(R.id.register);
         registerUser.setOnClickListener(this);
@@ -146,7 +94,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                 userLogin();
                 break;
             case R.id.forgotPassword:
-                // Takes us to forgotpassword ac;tivity
+                // Takes us to forgotpassword activity
                 Toast.makeText(LoginActivity.this, "You can now reset your Password!", Toast.LENGTH_SHORT).show();
                 startActivity(new Intent( LoginActivity.this, ForgotPasswordActivity.class));
                 break;

@@ -5,10 +5,13 @@ import androidx.appcompat.app.AppCompatActivity;
 
 
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
 import android.util.Patterns;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ProgressBar;
@@ -32,8 +35,15 @@ public class ForgotPasswordActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.forgot_password);
-        getSupportActionBar().setTitle("Forgot Password");
+        // getSupportActionBar().setTitle("Forgot Password");
 
+        // Change color of Status Bar (Top bar)
+        if (Build.VERSION.SDK_INT >= 21) {
+            Window window = this.getWindow();
+            window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
+            window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
+            window.setStatusBarColor(this.getResources().getColor(R.color.colorPrimaryDark));
+        }
 
         //Initialize ResetPassword Button, EditText PasswordResetEmail function, and ProgressBar function
         editTextPwdResetEmail = (EditText) findViewById(R.id.PasswordResetEmailEditText);
@@ -43,24 +53,24 @@ public class ForgotPasswordActivity extends AppCompatActivity {
         buttonPwdReset.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-            String email = editTextPwdResetEmail.getText().toString();
+                String email = editTextPwdResetEmail.getText().toString();
 
-            if (TextUtils.isEmpty(email)){
-                Toast.makeText(ForgotPasswordActivity.this, "Please enter your registered email", Toast.LENGTH_SHORT).show();
-                editTextPwdResetEmail.setError("Email is required");
-                editTextPwdResetEmail.requestFocus();
-            }
+                if (TextUtils.isEmpty(email)){
+                    Toast.makeText(ForgotPasswordActivity.this, "Please enter your registered email", Toast.LENGTH_SHORT).show();
+                    editTextPwdResetEmail.setError("Email is required");
+                    editTextPwdResetEmail.requestFocus();
+                }
 
-            else if (!Patterns.EMAIL_ADDRESS.matcher(email).matches()){
+                else if (!Patterns.EMAIL_ADDRESS.matcher(email).matches()){
                     Toast.makeText(ForgotPasswordActivity.this, "Please enter your registered email", Toast.LENGTH_SHORT).show();
                     editTextPwdResetEmail.setError("Valid email is required");
                     editTextPwdResetEmail.requestFocus();
                 }
 
-            else {
+                else {
                     progressBar.setVisibility(View.VISIBLE);
                     resetPassword(email);
-                 }
+                }
             }
         });
     }
