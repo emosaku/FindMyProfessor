@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/colorPrimary"
     tools:context=".RegisterUser">
 
     <TextView
@@ -22,27 +23,25 @@
         android:layout_marginTop="75dp"
         />
 
-    <TextView
-        android:id="@+id/bannerDescription"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:fontFamily="sans-serif-black"
-        android:text="Something something"
-        android:textAlignment="center"
-        android:textSize="18sp"
-        android:textStyle="italic"
-        app:layout_constraintTop_toBottomOf="@+id/banner"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent"
-        android:layout_marginTop="20dp"
-        />
-
+    <ImageView
+        android:id="@+id/imageView3"
+        android:layout_width="305dp"
+        android:layout_height="65dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.452"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.232"
+        app:srcCompat="@drawable/ecs_syracuse_logo_1" />
     <Button
         android:id="@+id/register"
         android:layout_width="205dp"
         android:layout_height="85dp"
         android:layout_marginTop="24dp"
         android:text="Register"
+        android:textColor="@color/white"
+        android:background="@color/blackish"
         app:layout_constraintTop_toBottomOf="@+id/password"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
@@ -52,14 +51,14 @@
         android:id="@+id/fullName"
         android:layout_width="380dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="60dp"
+        android:layout_marginTop="260dp"
         android:ems="10"
-        android:inputType="text"
         android:hint="Full Name"
+        android:inputType="text"
+        app:layout_constraintHorizontal_bias="0.483"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/bannerDescription"
-        />
+        app:layout_constraintTop_toTopOf="parent" />
 
     <EditText
         android:id="@+id/age"
@@ -110,12 +109,15 @@
         android:layout_marginBottom="72dp"
         android:text="BACK"
         android:onClick="back"
+        android:textColor="@color/white"
+        android:background="@color/blackish"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/register"
         tools:ignore="UsingOnClickInXml" />
+
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

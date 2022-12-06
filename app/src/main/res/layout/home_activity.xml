@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/colorPrimary"
     tools:context=".RegisterUser">
 
 
@@ -29,6 +30,8 @@
         android:layout_marginEnd="16dp"
         android:onClick="takePhoto"
         android:text="@string/take_photo"
+        android:textColor="@color/white"
+        android:background="@color/blackish"
         app:icon="@drawable/ic_baseline_add_a_photo_24"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -44,6 +47,8 @@
         android:layout_height="73dp"
         android:onClick="scanText"
         android:text="@string/scan_text"
+        android:textColor="@color/white"
+        android:background="@color/blackish"
         app:icon="@drawable/ic_baseline_document_scanner_24"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -60,6 +65,8 @@
         android:layout_marginTop="301dp"
         android:onClick="GENERATE"
         android:text="@string/generate"
+        android:textColor="@color/white"
+        android:background="@color/blackish"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.508"
@@ -75,6 +82,8 @@
         android:layout_marginStart="291dp"
         android:onClick="logout"
         android:text="@string/logout"
+        android:textColor="@color/white"
+        android:background="@color/blackish"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="1.0"
