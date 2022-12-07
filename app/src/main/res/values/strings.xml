@@ -33,5 +33,74 @@
 
     // Register Activity XML (Register Page)
 
+    //Blacklist
+    <string-array name="Blacklist">
+        <item>Introduction</item>
+        <item>Intro</item>
+        <item>Basics</item>
+        <item>Basic</item>
+        <item>to</item>
+        <item>Of</item>
+        <item>And</item>
+        <item>But</item>
+        <item>In</item>
+        <item>Into</item>
+        <item>Our</item>
+        <item>Out In-Depth</item>
+        <item>Basic Tutorial</item>
+        <item>Review</item>
+        <item>Preview</item>
+        <item>Properties</item>
+        <item>Inclusive</item>
+        <item>Exclusive</item>
+        <item>Approach</item>
+        <item>Outline</item>
+        <item>Analysis</item>
+        <item>Overview</item>
+        <item>Methods</item>
+        <item>For</item>
+        <item>Explanation</item>
+        <item>Explaining</item>
+        <item>Aspects</item>
+        <item>Core</item>
+        <item>Concepts</item>
+        <item>Step-by-step</item>
+        <item>Steps</item>
+        <item>Procedural</item>
+        <item>Information</item>
+        <item>introduction</item>
+        <item>intro</item>
+        <item>basics</item>
+        <item>basic</item>
+        <item>to</item>
+        <item>of</item>
+        <item>and</item>
+        <item>but</item>
+        <item>in</item>
+        <item>into</item>
+        <item>our</item>
+        <item>out in-depth</item>
+        <item>basic tutorial</item>
+        <item>review</item>
+        <item>preview</item>
+        <item>properties</item>
+        <item>inclusive</item>
+        <item>exclusive</item>
+        <item>approach</item>
+        <item>outline</item>
+        <item>analysis</item>
+        <item>overview</item>
+        <item>methods</item>
+        <item>for</item>
+        <item>explanation</item>
+        <item>explaining</item>
+        <item>aspects</item>
+        <item>core</item>
+        <item>concepts</item>
+        <item>step-by-step</item>
+        <item>steps</item>
+        <item>procedural</item>
+        <item>information</item>
+    </string-array>
 
 </resources>

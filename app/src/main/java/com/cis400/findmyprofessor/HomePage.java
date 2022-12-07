@@ -50,6 +50,8 @@ import com.google.mlkit.vision.text.TextRecognizer;
 import com.google.mlkit.vision.text.latin.TextRecognizerOptions;
 
 import java.io.IOException;
+import java.util.Arrays;
+import java.util.HashSet;
 
 public class HomePage extends AppCompatActivity implements View.OnClickListener{
     private static final int CAPTURE_CODE = 1012;
@@ -58,6 +60,7 @@ public class HomePage extends AppCompatActivity implements View.OnClickListener{
     private Button logout;
     private Button takePhoto;
     private TextView scannedString;
+    private TextView filteredString;
     private Button GENERATE;
     private FirebaseAuth mAuth;
     private ImageView capturedPic;
@@ -68,6 +71,7 @@ public class HomePage extends AppCompatActivity implements View.OnClickListener{
     private TextRecognizer textRecognizer;
     private static final int REQUEST_CAMERA_CODE = 100;
     private static final int REQUEST_STORAGE_CODE = 101;
+    String recognizedText = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -103,6 +107,7 @@ public class HomePage extends AppCompatActivity implements View.OnClickListener{
         capturedPic = findViewById(R.id.capturedImage);
 
         scannedString = findViewById(R.id.scannedText);
+        filteredString = findViewById(R.id.filteredText);
 
         textRecognizer = TextRecognition.getClient(TextRecognizerOptions.DEFAULT_OPTIONS);
 
@@ -128,6 +133,7 @@ public class HomePage extends AppCompatActivity implements View.OnClickListener{
                 }
             }
         });
+
     }
 
     private void displayInputOptions() {
@@ -284,8 +290,11 @@ public class HomePage extends AppCompatActivity implements View.OnClickListener{
                     .addOnSuccessListener(new OnSuccessListener<Text>() {
                         @Override
                         public void onSuccess(Text text) {
-                            String recognizedText = text.getText();
-                            scannedString.setText(recognizedText);
+                            //recognizedText = text.getText();
+                            recognizedText = "Intro to Statistics Guide to Statistics";
+                            //Update two Textview
+                            scannedString.setText("Raw Text: " + recognizedText);
+                            filteredString.setText("Filtered Text: " + filterText(recognizedText));
                         }
                     })
                     .addOnFailureListener(new OnFailureListener() {
@@ -302,13 +311,25 @@ public class HomePage extends AppCompatActivity implements View.OnClickListener{
 
     }
 
+    private String filterText(String stringToFilter)
+    {
+        //String[] recognizedTextArray = stringToFilter.split(" ");
+        String[] recognizedTextArray = "Intro to Statistics Guide to Statistics".split(" ");
+        HashSet<String> filteredSet = new HashSet<>();
+        String filteredString;
 
+        //Get non blacklisted words into the Hashset
+        for (String word : recognizedTextArray){
+            //if word is contained in recognizedText
+            if (!Arrays.asList(getResources().getStringArray(R.array.Blacklist)).contains(word.toLowerCase())){ //word good
+                filteredSet.add(word);
+            }
+        }
 
-
-
-
-
-
+        //Convert the HashSet to a String to be returned
+        filteredString = filteredSet.toString(); //Will be in the form "[Geeks, For, Welcome, To]". Trim [] and split by ", "
+        return filteredString;
+    }
 
     @Override
     public void onClick(View v){
@@ -316,13 +337,21 @@ public class HomePage extends AppCompatActivity implements View.OnClickListener{
         switch(v.getId()){
 
             case R.id.logout:
-                //Take us to mainActivity class
+                //Take us to loginActivity class
                 startActivity(new Intent(this, LoginActivity.class));
                 break;
             case R.id.GENERATE:
                 //Take us to GENERATE class
                 //Need to bring words over as well
-                startActivity(new Intent(this, GenerateActivity.class));
+                if(scannedString == null) {
+                    Toast.makeText(this, "Scan image text first!", Toast.LENGTH_SHORT).show();
+                    break;
+                } else {
+                    Intent intent = new Intent(this, GenerateActivity.class);
+                    intent.putExtra("keyFilteredWords", (filterText(recognizedText)));
+                    recognizedText = null;  //Clear for return to the activity
+                    startActivity(intent);
+                }
                 break;
             default:
 
