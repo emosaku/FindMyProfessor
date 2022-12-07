@@ -290,8 +290,8 @@ public class HomePage extends AppCompatActivity implements View.OnClickListener{
                     .addOnSuccessListener(new OnSuccessListener<Text>() {
                         @Override
                         public void onSuccess(Text text) {
-                            //recognizedText = text.getText();
-                            recognizedText = "Intro to Statistics Guide to Statistics";
+                            recognizedText = text.getText();
+                            //recognizedText = "Intro to Statistics Guide to Statistics";
                             //Update two Textview
                             scannedString.setText("Raw Text: " + recognizedText);
                             filteredString.setText("Filtered Text: " + filterText(recognizedText));
@@ -313,8 +313,8 @@ public class HomePage extends AppCompatActivity implements View.OnClickListener{
 
     private String filterText(String stringToFilter)
     {
-        //String[] recognizedTextArray = stringToFilter.split(" ");
-        String[] recognizedTextArray = "Intro to Statistics Guide to Statistics".split(" ");
+        String[] recognizedTextArray = stringToFilter.split(" ");
+        //String[] recognizedTextArray = "Intro to Statistics Guide to Statistics".split(" ");
         HashSet<String> filteredSet = new HashSet<>();
         String filteredString;
 

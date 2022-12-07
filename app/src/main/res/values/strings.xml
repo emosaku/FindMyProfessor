@@ -101,6 +101,9 @@
         <item>steps</item>
         <item>procedural</item>
         <item>information</item>
+        <item>A</item>
+        <item>An</item>
+        <item>And</item>
     </string-array>
 
 </resources>

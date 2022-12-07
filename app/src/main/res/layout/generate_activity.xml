@@ -21,7 +21,7 @@
         android:layout_marginTop="20dp"
         android:gravity="center_horizontal"/>
 
-    <Button
+    <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/generate_back_button"
         android:layout_width="wrap_content"
         android:layout_height="25dp"
@@ -35,7 +35,7 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.901" />
 
-    <Button
+    <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/button_email"
         android:layout_width="wrap_content"
         android:layout_height="25dp"

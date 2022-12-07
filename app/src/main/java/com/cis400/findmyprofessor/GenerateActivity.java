@@ -1,8 +1,11 @@
 package com.cis400.findmyprofessor;
 
+import static java.lang.Thread.sleep;
+
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.CountDownTimer;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
@@ -57,7 +60,8 @@ public class GenerateActivity extends AppCompatActivity implements View.OnClickL
     private Button generate_back_button;
     private Button button_email;
 
-    public String filteredKeyWords = "Intro to Statistics Guide to Statistics linear algebra";
+    public String filteredKeyWords;
+    //public String filteredKeyWords = "Intro to Statistics Guide to Statistics linear algebra";
 
     public RecyclerView recyclerView;
     public ArrayList<Professor> profList = new ArrayList<>();
@@ -152,9 +156,7 @@ public class GenerateActivity extends AppCompatActivity implements View.OnClickL
                                     Log.d("TAG", doc.getId() + " => " + Objects.requireNonNull(doc.getData().entrySet().toArray()[1].toString()));
                                     courseList.add(new Course(keywordsStr.split("[\\[\\]]|, "), professorsStr.split("[\\[\\]]|, ")));
                                 } catch (NullPointerException e) {
-                                    Log.d("TAG", "BRUH|||||||||||||| BRUH ||||||||||||||||||||BRUH||||||||||||||||||||BRUH");
-                                    Log.d("TAG", "->" + doc.getData().entrySet().toArray()[0].toString());
-                                    Log.d("TAG", "BRUH|||||||||||||| BRUH ||||||||||||||||||||BRUH||||||||||||||||||||BRUH");
+                                    Log.d("TAG", "Null pointer exception receiving from" + doc.getId());
                                 }
                             }
                             rankingFunction();
@@ -163,7 +165,7 @@ public class GenerateActivity extends AppCompatActivity implements View.OnClickL
                     }
                 });
 
-        //adapter.notifyDataSetChanged();
+        adapter.notifyDataSetChanged();
 
     }
 
@@ -177,16 +179,25 @@ public void rankingFunction() {
     //Iterate over the filtered text check for matches
     String[] filteredKeyWordsArray =  filteredKeyWords.substring(1, filteredKeyWords.length()-1).split(", ");
 
+    profMap.put("Roger Chen", (new Professor("Roger Chen", "Email",
+            "Office", "Title", 0)));
+
     for(String str : filteredKeyWordsArray) //For every word in filtered text
     {
         Log.d("TAG", "Current str: " + str);
         for(Course course: courseList) { //Check every course for the word
-            Log.d("TAG", "Current course: " + course.getKeywords().toString());
-            if(Arrays.asList(course.getKeywords()).contains(str)) { //If matched with a course
-                for(String prof : course.getProfessors()) { //Add a point for every prof on the course
-                    Log.d("TAG", "Prof to increment: " + prof);
-                    Objects.requireNonNull(profMap.get(prof)).keywordMatches++;
-                    Log.d("TAG", "New match #: " + Objects.requireNonNull(profMap.get(prof)).keywordMatches++);
+            //Log.d("TAG", "Current course: " + course.getKeywords().toString());
+            //Log.d("TAG", "Current course: " + Arrays.asList(course.getProfessors()));
+            //if(course.getKeywords().toString().contains(str)) { //If matched with a course
+            if(true) { //If matched with a course
+                String [] professors = course.getProfessors();
+                for(int i=0; i<professors.length; i++) { //Add a point for every prof on the course
+                    String prof = professors[i];
+                    if(profMap.containsKey(prof)) {
+                        Log.d("TAG", "Prof to increment: " + prof);
+                        Objects.requireNonNull(profMap.get(prof).keywordMatches++);
+                        Log.d("TAG", "New match #: " + Objects.requireNonNull(profMap.get(prof).getKeywordMatches()));
+                    }
                 }
             }
         }
@@ -196,13 +207,16 @@ public void rankingFunction() {
     Log.d("TAG", "ProfMap Size: " + profMap.size());
     Log.d("TAG", "ProfList: " + profList.toString());
     Log.d("TAG", "ProfList Size: " + profList.size());
+    if(profList.size() > 0) Log.d("TAG", "hi: " + profList.get(1).keywordMatches + profList.get(2).keywordMatches + profList.get(3).keywordMatches);
 
     //Which professors need to be displayed
-    for (Professor prof : profMap.values()) {
-        if (prof.keywordMatches > 0) {
-            displayList.add(prof);
-            adapter.notifyDataSetChanged();
-            Log.d("TAG", "Prof added to displayList: " + prof.toString());
+    for (int i=0; i<profList.size(); i++) {
+        if(profMap.get(profList.get(i).name) != null) {
+            Professor prof = profMap.get(profList.get(i).name);
+            if (prof.keywordMatches > 0) {
+                displayList.add(prof);
+                Log.d("TAG", "Prof added to displayList: " + prof.toString());
+            }
         }
     }
 
@@ -210,10 +224,13 @@ public void rankingFunction() {
     Collections.sort(displayList, new Comparator<Professor>() {
         @Override
         public int compare(Professor o1, Professor o2) {
-            return Integer.compare(o1.getKeywordMatches(), o2.getKeywordMatches());
+            return Integer.compare(o2.getKeywordMatches(), o1.getKeywordMatches());
         }
     });
     Log.d("TAG", "BRUH|||||||||||||| BRUH ||||||||||||||||||||BRUH");
+    Log.d("TAG", "displayList: " + displayList.toString());
+    Log.d("TAG", "displayList Size: " + displayList.size());
+
     adapter.notifyDataSetChanged();
 
 }
