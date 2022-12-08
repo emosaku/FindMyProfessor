@@ -121,7 +121,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
             return null;
         }
         if (password.isEmpty()) {
-            userPassword.setError("Email is Required.");
+            userPassword.setError("Password is Required.");
             userPassword.requestFocus();
             return null;
         }

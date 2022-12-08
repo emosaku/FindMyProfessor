@@ -35,6 +35,7 @@ public class CardAdapter extends RecyclerView.Adapter<CardAdapter.MyViewHolder> 
         holder.email.setText(professor.getEmail());
         holder.office.setText(professor.getOffice());
         holder.title.setText(professor.getTitle());
+        holder.keywordmatches.setText(professor.getKeywordMatches().toString());
     }
 
     @Override
@@ -43,13 +44,14 @@ public class CardAdapter extends RecyclerView.Adapter<CardAdapter.MyViewHolder> 
     }
 
     public static class MyViewHolder extends RecyclerView.ViewHolder {
-        TextView name, email, office, title;
+        TextView name, email, office, title, keywordmatches;
         public MyViewHolder(@NonNull View itemView) {
             super(itemView);
             name = itemView.findViewById(R.id.textname);
             email = itemView.findViewById(R.id.textemail);
             office = itemView.findViewById(R.id.textoffice);
             title = itemView.findViewById(R.id.texttitle);
+            keywordmatches = itemView.findViewById(R.id.textkeywordmatches);
         }
     }
 }
