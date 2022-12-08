@@ -313,7 +313,7 @@ public class HomePage extends AppCompatActivity implements View.OnClickListener{
 
     private String filterText(String stringToFilter)
     {
-        String[] recognizedTextArray = stringToFilter.split(" ");
+        String[] recognizedTextArray = stringToFilter.split(" |, |\n|\n ");
         //String[] recognizedTextArray = "Intro to Statistics Guide to Statistics".split(" ");
         HashSet<String> filteredSet = new HashSet<>();
         String filteredString;

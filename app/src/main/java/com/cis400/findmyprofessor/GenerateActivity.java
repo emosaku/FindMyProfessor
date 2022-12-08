@@ -25,6 +25,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.android.gms.common.util.ArrayUtils;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -74,12 +75,6 @@ public class GenerateActivity extends AppCompatActivity implements View.OnClickL
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.generate_activity);
-
-//        // calling the action bar
-//        ActionBar actionBar = getSupportActionBar();
-//
-//        // showing the back button in action bar
-//        actionBar.setDisplayHomeAsUpEnabled(true);
 
         // back button initializer
         generate_back_button = (Button) findViewById(R.id.generate_back_button);
@@ -154,6 +149,8 @@ public class GenerateActivity extends AppCompatActivity implements View.OnClickL
 
                                     Log.d("TAG", doc.getId() + " => " + Objects.requireNonNull(doc.getData().entrySet().toArray()[0].toString()));
                                     Log.d("TAG", doc.getId() + " => " + Objects.requireNonNull(doc.getData().entrySet().toArray()[1].toString()));
+                                    keywordsStr = keywordsStr.toLowerCase();
+
                                     courseList.add(new Course(keywordsStr.split("[\\[\\]]|, "), professorsStr.split("[\\[\\]]|, ")));
                                 } catch (NullPointerException e) {
                                     Log.d("TAG", "Null pointer exception receiving from" + doc.getId());
@@ -179,24 +176,22 @@ public void rankingFunction() {
     //Iterate over the filtered text check for matches
     String[] filteredKeyWordsArray =  filteredKeyWords.substring(1, filteredKeyWords.length()-1).split(", ");
 
-    profMap.put("Roger Chen", (new Professor("Roger Chen", "Email",
-            "Office", "Title", 0)));
+    //profMap.put("Roger Chen", (new Professor("Roger Chen", "Email", "Office", "Title", 0))); //Test
 
     for(String str : filteredKeyWordsArray) //For every word in filtered text
     {
-        Log.d("TAG", "Current str: " + str);
+        str = str.toLowerCase();
+        //Log.d("TAG", "Current str: " + str);
         for(Course course: courseList) { //Check every course for the word
-            //Log.d("TAG", "Current course: " + course.getKeywords().toString());
-            //Log.d("TAG", "Current course: " + Arrays.asList(course.getProfessors()));
-            //if(course.getKeywords().toString().contains(str)) { //If matched with a course
-            if(true) { //If matched with a course
+            //Log.d("TAG", "getKeywords(): " + Arrays.toString(course.getKeywords()).contains(str));
+            if(ArrayUtils.contains(course.getKeywords(), str.toLowerCase())) { //If matched with a course
                 String [] professors = course.getProfessors();
                 for(int i=0; i<professors.length; i++) { //Add a point for every prof on the course
                     String prof = professors[i];
                     if(profMap.containsKey(prof)) {
-                        Log.d("TAG", "Prof to increment: " + prof);
+                        //Log.d("TAG", "Prof to increment: " + prof);
                         Objects.requireNonNull(profMap.get(prof).keywordMatches++);
-                        Log.d("TAG", "New match #: " + Objects.requireNonNull(profMap.get(prof).getKeywordMatches()));
+                        //Log.d("TAG", "New match #: " + Objects.requireNonNull(profMap.get(prof).getKeywordMatches()));
                     }
                 }
             }
@@ -207,7 +202,6 @@ public void rankingFunction() {
     Log.d("TAG", "ProfMap Size: " + profMap.size());
     Log.d("TAG", "ProfList: " + profList.toString());
     Log.d("TAG", "ProfList Size: " + profList.size());
-    if(profList.size() > 0) Log.d("TAG", "hi: " + profList.get(1).keywordMatches + profList.get(2).keywordMatches + profList.get(3).keywordMatches);
 
     //Which professors need to be displayed
     for (int i=0; i<profList.size(); i++) {
@@ -230,6 +224,8 @@ public void rankingFunction() {
     Log.d("TAG", "BRUH|||||||||||||| BRUH ||||||||||||||||||||BRUH");
     Log.d("TAG", "displayList: " + displayList.toString());
     Log.d("TAG", "displayList Size: " + displayList.size());
+
+    Log.d("TAG", filteredKeyWords);
 
     adapter.notifyDataSetChanged();
 
